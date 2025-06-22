@@ -1,0 +1,7 @@
+# .gitignore
+bin/
+*.exe
+*.out
+*.log
+vendor/
+.env
