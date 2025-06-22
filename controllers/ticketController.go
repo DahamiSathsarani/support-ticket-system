@@ -43,31 +43,59 @@ func GetAllTickets(c *gin.Context) {
 	c.JSON(http.StatusOK, tickets)
 }
 
-func UpdateTicketStatus(c *gin.Context) {
+func UpdateTicket(c *gin.Context) {
 	var ticket models.Ticket
 	id := c.Param("id")
+	userID := c.GetUint("userID")
+	role := c.GetString("role")
 
 	if err := database.DB.First(&ticket, id).Error; err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "Ticket not found"})
 		return
 	}
 
-	if err := c.ShouldBindJSON(&ticket); err != nil {
+	if ticket.UserID != userID && role != "admin" {
+		c.JSON(http.StatusForbidden, gin.H{"error": "Access denied"})
+		return
+	}
+
+	var input models.Ticket
+	if err := c.ShouldBindJSON(&input); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	database.DB.Save(&ticket)
+	ticket.Title = input.Title
+	ticket.Description = input.Description
+
+	if role == "admin" {
+		ticket.Status = input.Status
+	}
+
+	if err := database.DB.Save(&ticket).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update ticket"})
+		return
+	}
+
 	c.JSON(http.StatusOK, ticket)
 }
 
 func DeleteTicket(c *gin.Context) {
+	var ticket models.Ticket
 	id := c.Param("id")
+	userID := c.GetUint("userID")
+	role := c.GetString("role")
 
-	if err := database.DB.Delete(&models.Ticket{}, id).Error; err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to delete ticket"})
+	if err := database.DB.First(&ticket, id).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Ticket not found"})
 		return
 	}
 
+	if ticket.UserID != userID && role != "admin" {
+		c.JSON(http.StatusForbidden, gin.H{"error": "Access denied"})
+		return
+	}
+
+	database.DB.Delete(&ticket)
 	c.JSON(http.StatusOK, gin.H{"message": "Ticket deleted"})
 }

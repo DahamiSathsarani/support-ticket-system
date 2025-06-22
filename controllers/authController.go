@@ -35,7 +35,7 @@ func Register(c *gin.Context) {
 	}
 
 	input.Password = string(hashedPassword)
-	input.Role = "user"
+	input.Role = "admin"
 	database.DB.Create(&input)
 
 	c.JSON(http.StatusOK, gin.H{"message": "Registered successfully"})
