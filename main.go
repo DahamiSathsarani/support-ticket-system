@@ -19,9 +19,10 @@ func main() {
 	r := gin.Default()
 
 	database.Connect()
-	database.DB.AutoMigrate(&models.User{})
+	database.DB.AutoMigrate(&models.User{}, &models.Ticket{})
 
 	routes.AuthRoutes(r)
+	routes.TicketRoutes(r)
 	routes.ProtectedRoutes(r)
 
 	r.Run(":8080")
