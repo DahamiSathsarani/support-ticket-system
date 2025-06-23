@@ -23,7 +23,8 @@ func main() {
 
 	routes.AuthRoutes(r)
 	routes.TicketRoutes(r)
-	routes.ProtectedRoutes(r)
+	routes.UserRoutes(r)
+
 
 	r.Run(":8080")
 }
