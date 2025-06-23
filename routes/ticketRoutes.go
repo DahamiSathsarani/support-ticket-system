@@ -13,9 +13,10 @@ func TicketRoutes(router *gin.Engine) {
 
 	ticket.POST("/create", controllers.CreateTicket)
 	ticket.GET("/get-my", controllers.GetUserTickets)
-
-	ticket.GET("/get-all", middleware.RoleMiddleware("admin"), controllers.GetAllTickets)
-
 	ticket.PUT("/update/:id", controllers.UpdateTicket)
 	ticket.DELETE("/delete/:id", controllers.DeleteTicket)
+	ticket.GET("/get-assigned", controllers.GetAssignedTickets)
+
+	ticket.GET("/get-all", middleware.RoleMiddleware("admin"), controllers.GetAllTickets)
+	ticket.PUT("/assign/:id", middleware.RoleMiddleware("admin"), controllers.AssignTicket)
 }

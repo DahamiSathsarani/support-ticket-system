@@ -99,3 +99,67 @@ func DeleteTicket(c *gin.Context) {
 	database.DB.Delete(&ticket)
 	c.JSON(http.StatusOK, gin.H{"message": "Ticket deleted"})
 }
+
+func AssignTicket(c *gin.Context) {
+	role := c.GetString("role")
+	if role != "admin" {
+		c.JSON(http.StatusForbidden, gin.H{"error": "Only admins can assign tickets"})
+		return
+	}
+
+	var ticket models.Ticket
+	id := c.Param("id")
+
+	if err := database.DB.First(&ticket, id).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Ticket not found"})
+		return
+	}
+
+	var input struct {
+		AssignedTo uint `json:"assigned_to"`
+	}
+	if err := c.ShouldBindJSON(&input); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	var assignedUser models.User
+	if err := database.DB.First(&assignedUser, input.AssignedTo).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Assigned user not found"})
+		return
+	}
+
+	if assignedUser.Role != "agent" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Only users with 'agent' role can be assigned tickets"})
+		return
+	}
+
+	ticket.AssignedTo = input.AssignedTo
+
+	if err := database.DB.Save(&ticket).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to assign ticket"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": "Ticket assigned successfully",
+		"ticket":  ticket,
+	})
+}
+
+func GetAssignedTickets(c *gin.Context) {
+	userID := c.GetUint("userID")
+
+	var tickets []models.Ticket
+	if err := database.DB.Where("assigned_to = ?", userID).Find(&tickets).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch assigned tickets"})
+		return
+	}
+
+	if len(tickets) == 0 {
+		c.JSON(http.StatusOK, gin.H{"message": "No assigned tickets"})
+		return
+	}
+
+	c.JSON(http.StatusOK, tickets)
+}
