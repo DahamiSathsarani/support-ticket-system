@@ -7,5 +7,6 @@ type Ticket struct {
 	Title       string `json:"title"`
 	Description string `json:"description"`
 	Status      string `json:"status" gorm:"default:open"` 
-	UserID      uint   `json:"user_id"`                    
+	UserID      uint   `json:"user_id"`         
+	AssignedTo  uint   `json:"assigned_to"`           
 }
