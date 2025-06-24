@@ -2,8 +2,8 @@ package controllers
 
 import (
 	"net/http"
-	"github.com/DahamiSathsarani/support-ticket-system/database"
-	"github.com/DahamiSathsarani/support-ticket-system/models"
+	"github.com/DahamiSathsarani/support-ticket-system/backend/database"
+	"github.com/DahamiSathsarani/support-ticket-system/backend/models"
 
 	"github.com/gin-gonic/gin"
 )

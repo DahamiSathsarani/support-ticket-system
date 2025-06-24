@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"net/http"
 	"strings"
-	"github.com/DahamiSathsarani/support-ticket-system/controllers"
-	"github.com/DahamiSathsarani/support-ticket-system/config"
+	"github.com/DahamiSathsarani/support-ticket-system/backend/controllers"
+	"github.com/DahamiSathsarani/support-ticket-system/backend/config"
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"

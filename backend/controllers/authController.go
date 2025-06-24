@@ -5,8 +5,8 @@ import (
 	"os"
 	"time"
 
-	"github.com/DahamiSathsarani/support-ticket-system/database"
-	"github.com/DahamiSathsarani/support-ticket-system/models"
+	"github.com/DahamiSathsarani/support-ticket-system/backend/database"
+	"github.com/DahamiSathsarani/support-ticket-system/backend/models"
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"

@@ -1,8 +1,8 @@
 package routes
 
 import (
-	"github.com/DahamiSathsarani/support-ticket-system/controllers"
-	"github.com/DahamiSathsarani/support-ticket-system/middleware"
+	"github.com/DahamiSathsarani/support-ticket-system/backend/controllers"
+	"github.com/DahamiSathsarani/support-ticket-system/backend/middleware"
 
 	"github.com/gin-gonic/gin"
 )

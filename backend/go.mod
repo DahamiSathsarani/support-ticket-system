@@ -1,4 +1,4 @@
-module github.com/DahamiSathsarani/support-ticket-system
+module github.com/DahamiSathsarani/support-ticket-system/backend
 
 go 1.24.4
 
