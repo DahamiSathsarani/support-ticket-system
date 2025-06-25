@@ -5,9 +5,9 @@ import (
 
 	"github.com/joho/godotenv"
 	"github.com/gin-gonic/gin"
-	"github.com/DahamiSathsarani/support-ticket-system/database"
-	"github.com/DahamiSathsarani/support-ticket-system/models"
-	"github.com/DahamiSathsarani/support-ticket-system/routes"
+	"github.com/DahamiSathsarani/support-ticket-system/backend/database"
+	"github.com/DahamiSathsarani/support-ticket-system/backend/models"
+	"github.com/DahamiSathsarani/support-ticket-system/backend/routes"
 )
 
 func main() {
