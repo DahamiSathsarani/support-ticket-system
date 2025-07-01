@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { login } from "@/services/authService";
+import { getUser } from "@/services/userService";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -12,12 +13,22 @@ export default function LoginPage() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async () => {
+   const handleSubmit = async () => {
     try {
       const res = await login(form);
-      console.log("token", res.data);
-      localStorage.setItem("token", res.data.token);
-      router.push("/dashboard");
+      const token = res.data.token;
+      localStorage.setItem("token", token);
+
+      const userRes = await getUser(token);
+      const role = userRes.data.role;
+
+      if (role === "admin") {
+        router.push("/admin");
+      } else if (role === "agent") {
+        router.push("/assigned");
+      } else {
+        router.push("/dashboard");
+      }
     } catch (err: any) {
       setError(err.response?.data?.error || "Login failed");
     }
