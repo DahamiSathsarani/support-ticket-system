@@ -163,3 +163,23 @@ func GetAssignedTickets(c *gin.Context) {
 
 	c.JSON(http.StatusOK, tickets)
 }
+
+func GetUserTicketStats(c *gin.Context) {
+	userID := c.GetUint("userID")
+
+	var total, open, pending, resolved, rejected int64
+
+	database.DB.Model(&models.Ticket{}).Where("user_id = ?", userID).Count(&total)
+	database.DB.Model(&models.Ticket{}).Where("user_id = ? AND status = ?", userID, "open").Count(&open)
+	database.DB.Model(&models.Ticket{}).Where("user_id = ? AND status = ?", userID, "pending").Count(&pending)
+	database.DB.Model(&models.Ticket{}).Where("user_id = ? AND status = ?", userID, "resolved").Count(&resolved)
+	database.DB.Model(&models.Ticket{}).Where("user_id = ? AND status = ?", userID, "rejected").Count(&rejected)
+
+	c.JSON(http.StatusOK, gin.H{
+		"total":    total,
+		"open":     open,
+		"pending":  pending,
+		"resolved": resolved,
+		"rejected": rejected,
+	})
+}
