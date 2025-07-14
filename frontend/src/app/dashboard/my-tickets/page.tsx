@@ -52,12 +52,10 @@ export default function MyTicketsPage() {
       <div className="bg-white shadow-md rounded-2xl p-6">
         <h2 className="text-2xl font-semibold text-indigo-700">My Tickets</h2>
         <p className="text-gray-500">Manage your support tickets</p>
-      </div>
 
-      <div className="text-right">
         <button
           onClick={() => setIsOpen(true)}
-          className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700"
+          className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 mt-5"
         >
           + Create New Ticket
         </button>
@@ -82,7 +80,7 @@ export default function MyTicketsPage() {
                 <div className="space-x-2">
                   <button
                     onClick={() => handleEdit(ticket)}
-                    className="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600"
+                    className="border-solid border-2 border-yellow-400 text-yellow-400 px-3 py-1 rounded-md hover:bg-yellow-400 hover:text-white"
                   >
                     Edit
                   </button>
