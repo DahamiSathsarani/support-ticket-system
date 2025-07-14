@@ -57,7 +57,7 @@ export default function Sidebar() {
         
           <nav className="space-y-3 mt-8">
             {user.role === "user" && navItem("/dashboard", "Dashboard", FiHome)}
-            {user.role === "user" && navItem("/tickets", "My Tickets", FiTag)}
+            {user.role === "user" && navItem("/dashboard/my-tickets", "My Tickets", FiTag)}
             {user.role === "admin" && navItem("/admin", "Admin Panel", FiTool)}
             {user.role === "agent" && navItem("/assigned", "Assigned Tickets", FiTool)}
             {navItem("/profile", "Profile", FiUser)}
